@@ -54,7 +54,7 @@ const Country = ({ country }) => (
     <h2>{country.name}</h2>
     capital {country.capital} <br />
     population {country.population}
-    <h3>languages </h3>
+    <h3>Spoken languages </h3>
     <ul>
       {country.languages.map((language) => (
         <li key={language.iso639_1}>{language.name}</li>
