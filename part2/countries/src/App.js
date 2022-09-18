@@ -18,10 +18,11 @@ const Countries = ({ countries, filter, setFilter }) => {
 };
 
 const CountryList = ({ countries, setFilter }) => {
+  console.log(countries[0])
   return countries.map((country) => (
-    <p key={country.alpha2Code}>
-      {country.name}{" "}
-      <button onClick={() => setFilter(country.name)}>Show</button>
+    <p key={country.capital[0]}>
+      {country.name.official}{" "}
+      <button onClick={() => setFilter(country.name.official)}>Show</button>
     </p>
   ));
 };
@@ -51,14 +52,16 @@ const Weather = ({ capital }) => {
 
 const Country = ({ country }) => (
   <>
-    <h2>{country.name}</h2>
-    capital {country.capital} <br />
+    <h2>{country.name.official}</h2>
+    capital {country.capital[0]} <br />
     population {country.population}
     <h3>Spoken languages </h3>
     <ul>
-      {country.languages.map((language) => (
-        <li key={language.iso639_1}>{language.name}</li>
-      ))}
+      { Object.entries(country.languages).map(([key, val]) =>
+        <li key={key}>{val}</li>) }
+      {/* {country.languages.map((language) => ( */}
+        {/* <li key={language.iso639_1}>{language.name}</li> */}
+      {/* ))} */}
     </ul>
     <img
       src={country.flag}
@@ -73,7 +76,7 @@ const App = () => {
   const [countries, setCountries] = useState([]);
   const [filter, setFilter] = useState("");
   useEffect(() => {
-    axios.get("https://restcountries.eu/rest/v2/all").then((response) => {
+    axios.get("https://restcountries.com/v3.1/all").then((response) => {
       setCountries(response.data);
     });
   }, []);
@@ -83,7 +86,7 @@ const App = () => {
   };
 
   const countriesToDisplay = countries.filter((country) =>
-    country.name.toLowerCase().includes(filter.toLowerCase())
+    country.name.official.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
